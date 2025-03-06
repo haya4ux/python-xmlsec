@@ -19,13 +19,23 @@ jobs:
           chown -R $(id -u):$(id -g) $PWD
           /opt/python/${{ matrix.python-abi }}/bin/pip install --upgrade pip setuptools wheel build
       - name: Install system build dependencies (manylinux)
-        run: |
-          yum install -y perl-core openssl-devel libxml2-devel libxslt-devel
         if: contains(matrix.image, 'manylinux')
-      - name: Install system build dependencies (musllinux)
         run: |
-          apk add --no-cache openssl-dev libxml2-dev libxslt-dev
+          yum install -y perl-core openssl-devel libxml2-devel libxslt-devel wget tar gcc make
+      - name: Install system build dependencies (musllinux)
         if: contains(matrix.image, 'musllinux')
+        run: |
+          apk add --no-cache openssl-dev libxml2-dev libxslt-dev wget tar gcc make
+      - name: Build updated libxmlsec1 (for manylinux2014 only)
+        if: ${{ matrix.image == 'manylinux2014_x86_64' }}
+        run: |
+          wget https://www.aleksey.com/xmlsec/download/xmlsec1-1.2.32.tar.gz
+          tar xzf xmlsec1-1.2.32.tar.gz
+          cd xmlsec1-1.2.32
+          ./configure --with-openssl --prefix=/usr/local
+          make -j$(nproc)
+          make install
+          ldconfig
       - name: Set environment variables
         shell: bash
         run: |
