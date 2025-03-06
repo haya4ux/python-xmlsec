@@ -29,7 +29,8 @@ jobs:
           export CFLAGS="-fprofile-instr-generate -fcoverage-mapping -I${OPENSSL_PREFIX}/include"
           export LDFLAGS="-fprofile-instr-generate -fcoverage-mapping -L${OPENSSL_PREFIX}/lib"
           export PKG_CONFIG_PATH="$(brew --prefix)/opt/libxml2/lib/pkgconfig:${OPENSSL_PREFIX}/lib/pkgconfig"
-          pip install "setuptools_scm[toml]>=3.4" "pkgconfig>=1.5.1"  --no-binary "lxml>=3.8,!=4.7.0"
+          pip install "setuptools_scm[toml]>=3.4" "pkgconfig>=1.5.1"
+          pip install --no-binary "lxml>=3.8,!=4.7.0"
           python -m build --no-isolation
           rm -rf build/
       - name: Set environment variables
