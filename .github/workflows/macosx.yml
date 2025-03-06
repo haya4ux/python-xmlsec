@@ -24,7 +24,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           export PYXMLSEC_OPENSSL_VERSION="openssl-1.1.1w"
-          export PYXMLSEC_OPENSSL_DOWNLOAD_URL="https://www.openssl.org/source/openssl-1.1.1w.tar.gz"
+          export PYXMLSEC_OPENSSL_DOWNLOAD_URL="https://github.com/openssl/openssl/releases/download/OpenSSL_1_1_1w/openssl-1.1.1w.tar.gz"
           export OPENSSL_PREFIX="$(brew --prefix openssl@1.1)"
           export CFLAGS="-fprofile-instr-generate -fcoverage-mapping -I${OPENSSL_PREFIX}/include"
           export LDFLAGS="-fprofile-instr-generate -fcoverage-mapping -L${OPENSSL_PREFIX}/lib"
