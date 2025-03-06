@@ -24,6 +24,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           export PYXMLSEC_OPENSSL_VERSION="openssl-1.1.1u"
+          export PYXMLSEC_OPENSSL_DOWNLOAD_URL="https://www.openssl.org/source/openssl-1.1.1u.tar.gz"
           export OPENSSL_PREFIX="$(brew --prefix openssl@1.1)"
           export CFLAGS="-fprofile-instr-generate -fcoverage-mapping -I${OPENSSL_PREFIX}/include"
           export LDFLAGS="-fprofile-instr-generate -fcoverage-mapping -L${OPENSSL_PREFIX}/lib"
@@ -49,4 +50,3 @@ jobs:
           /Library/Developer/CommandLineTools/usr/bin/llvm-profdata merge -sparse ${{ env.LLVM_PROFILE_FILE }} -output pyxmlsec.profdata
           /Library/Developer/CommandLineTools/usr/bin/llvm-cov show ${{ env.PYXMLSEC_LIBFILE }} --arch=$(uname -m) --instr-profile=pyxmlsec.profdata src > coverage.txt
           bash <(curl -s https://codecov.io/bash) -f coverage.txt
-        if: matrix.static_deps != 'static'

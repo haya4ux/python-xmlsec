@@ -18,6 +18,10 @@ jobs:
           brew update
           brew install python@${{ matrix.python }} gcc libxml2 libxmlsec1 pkg-config
           echo "/home/linuxbrew/.linuxbrew/opt/python@${{ matrix.python }}/libexec/bin" >> $GITHUB_PATH
+      - name: Symlink gcc
+        run: |
+          ln -sf "$(command -v gcc)" /home/linuxbrew/.linuxbrew/bin/gcc-11
+          ln -sf "$(command -v g++)" /home/linuxbrew/.linuxbrew/bin/g++-11
       - name: Build wheel
         run: |
           python3 -m venv build_venv
