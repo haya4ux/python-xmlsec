@@ -29,6 +29,7 @@ jobs:
           export CFLAGS="-fprofile-instr-generate -fcoverage-mapping -I${OPENSSL_PREFIX}/include"
           export LDFLAGS="-fprofile-instr-generate -fcoverage-mapping -L${OPENSSL_PREFIX}/lib"
           export PKG_CONFIG_PATH="$(brew --prefix)/opt/libxml2/lib/pkgconfig:${OPENSSL_PREFIX}/lib/pkgconfig"
+          pip install setuptools_scm[toml]>=3.4 lxml pkgconfig
           python -m build --no-isolation
           rm -rf build/
       - name: Set environment variables
@@ -50,3 +51,4 @@ jobs:
           /Library/Developer/CommandLineTools/usr/bin/llvm-profdata merge -sparse ${{ env.LLVM_PROFILE_FILE }} -output pyxmlsec.profdata
           /Library/Developer/CommandLineTools/usr/bin/llvm-cov show ${{ env.PYXMLSEC_LIBFILE }} --arch=$(uname -m) --instr-profile=pyxmlsec.profdata src > coverage.txt
           bash <(curl -s https://codecov.io/bash) -f coverage.txt
+        if: matrix.static_deps != 'static'
