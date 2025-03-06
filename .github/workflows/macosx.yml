@@ -23,6 +23,7 @@ jobs:
           PYXMLSEC_STATIC_DEPS: ${{ matrix.static_deps }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          export PYXMLSEC_OPENSSL_VERSION="openssl-1.1.1u"
           export OPENSSL_PREFIX="$(brew --prefix openssl@1.1)"
           export CFLAGS="-fprofile-instr-generate -fcoverage-mapping -I${OPENSSL_PREFIX}/include"
           export LDFLAGS="-fprofile-instr-generate -fcoverage-mapping -L${OPENSSL_PREFIX}/lib"
