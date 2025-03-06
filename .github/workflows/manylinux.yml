@@ -22,6 +22,10 @@ jobs:
         run: |
           yum install -y perl-core libxml2-devel libxslt-devel
         if: contains(matrix.image, 'manylinux')
+      - name: Install system build dependencies (musllinux)
+        run: |
+          apk add --no-cache libxml2-dev libxslt-dev
+        if: contains(matrix.image, 'musllinux')
       - name: Set environment variables
         shell: bash
         run: |
